@@ -1,6 +1,5 @@
 package com.bottega.devcamp.entities;
 
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +13,7 @@ import lombok.Data;
 public class Room {
     
     @Id
-    UUID id;
+    String id;
 
     
     

@@ -43,7 +43,7 @@ class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<Room> getById(@PathVariable("id") String id) {
         Room roomFound = service.findById(id);
 
         if (roomFound != null) {
@@ -55,7 +55,7 @@ class RoomController {
 
     @PostMapping
     public ResponseEntity<Room> create(@RequestBody Room room) {
-        if(room.getId() == null) room.setId(UUID.randomUUID());
+        if(room.getId() == null) room.setId(UUID.randomUUID().toString());
 
         try {
             Room saveRoom = service.save(room);
@@ -67,7 +67,7 @@ class RoomController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
         try {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

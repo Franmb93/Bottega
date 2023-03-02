@@ -1,7 +1,6 @@
 package com.bottega.devcamp.entities;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +14,7 @@ import lombok.Data;
 public class Message {
     
     @Id
-    private UUID id;
+    private String id;
 
     private Date timestamp;
     private String content;

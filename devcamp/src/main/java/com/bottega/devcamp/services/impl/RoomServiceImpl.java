@@ -1,8 +1,6 @@
 package com.bottega.devcamp.services.impl;
 
 import java.util.List;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,7 @@ public class RoomServiceImpl implements IRoomService{
     }
 
     @Override
-    public Room findById(UUID id) {
+    public Room findById(String id) {
         return dao.findById(id).orElse(null);
     }
 
@@ -32,7 +30,7 @@ public class RoomServiceImpl implements IRoomService{
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         dao.deleteById(id);
     }
 

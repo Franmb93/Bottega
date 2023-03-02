@@ -1,7 +1,6 @@
 package com.bottega.devcamp.entities;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +18,7 @@ import lombok.Data;
 public class User {
     
     @Id
-    private UUID id;
+    private String id;
     private String username;
     private String password;
 

@@ -42,7 +42,7 @@ class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<User> getById(@PathVariable("id") String id) {
         User userFound = service.findById(id);
 
         if (userFound != null) {
@@ -54,7 +54,7 @@ class UserController {
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user) {      
-        if(user.getId() == null) user.setId(UUID.randomUUID());
+        if(user.getId() == null) user.setId(UUID.randomUUID().toString());
 
         User foundUser = service.findByUsername(user.getUsername());
 
@@ -71,7 +71,7 @@ class UserController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
         try {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

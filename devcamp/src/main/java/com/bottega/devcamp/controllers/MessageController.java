@@ -42,7 +42,7 @@ class MessageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Message> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<Message> getById(@PathVariable("id") String id) {
         Message messageFound = service.findById(id);
 
         if(messageFound != null) {
@@ -54,7 +54,7 @@ class MessageController {
 
     @PostMapping
     public ResponseEntity<Message> create(@RequestBody Message item) {
-        if(item.getId() == null) item.setId(UUID.randomUUID());
+        if(item.getId() == null) item.setId(UUID.randomUUID().toString());
 
         try {
             Message savedItem = service.save(item);
@@ -65,7 +65,7 @@ class MessageController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
         try {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
