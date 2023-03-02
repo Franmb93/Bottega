@@ -36,5 +36,10 @@ public class UserServiceImpl implements IUserService{
         dao.deleteById(id);
     }
 
+    @Override
+    public User findByUsername(String username) {
+        return dao.findByUsername(username);
+    }
+
 
 }

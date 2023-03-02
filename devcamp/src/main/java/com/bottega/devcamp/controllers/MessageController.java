@@ -2,7 +2,6 @@ package com.bottega.devcamp.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bottega.devcamp.entities.Message;
-import com.bottega.devcamp.repository.IMessageDao;
+import com.bottega.devcamp.services.IMessageService;
 
 @RestController
 @RequestMapping("/api/message")
 class MessageController {
 
     @Autowired
-    IMessageDao repository;
+    IMessageService service;
 
     @GetMapping
     public ResponseEntity<List<Message>> getAll() {
         try {
             List<Message> messages = new ArrayList<>();
 
-            repository.findAll().forEach(messages::add);
+            service.findAll().forEach(messages::add);
 
             if (messages.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -44,10 +43,10 @@ class MessageController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Message> getById(@PathVariable("id") UUID id) {
-        Optional<Message> existingItemOptional = repository.findById(id);
+        Message messageFound = service.findById(id);
 
-        if (existingItemOptional.isPresent()) {
-            return new ResponseEntity<>(existingItemOptional.get(), HttpStatus.OK);
+        if(messageFound != null) {
+            return new ResponseEntity<>(messageFound, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -55,8 +54,10 @@ class MessageController {
 
     @PostMapping
     public ResponseEntity<Message> create(@RequestBody Message item) {
+        if(item.getId() == null) item.setId(UUID.randomUUID());
+
         try {
-            Message savedItem = repository.save(item);
+            Message savedItem = service.save(item);
             return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -66,7 +67,7 @@ class MessageController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") UUID id) {
         try {
-            repository.deleteById(id);
+            service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

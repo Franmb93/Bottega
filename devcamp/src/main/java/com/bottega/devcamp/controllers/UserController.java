@@ -2,7 +2,6 @@ package com.bottega.devcamp.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bottega.devcamp.entities.User;
-import com.bottega.devcamp.repository.IUserDao;
+import com.bottega.devcamp.services.IUserService;
 
 @RestController
 @RequestMapping("/api/user")
 class UserController {
 
     @Autowired
-    IUserDao repository;
+    IUserService service;
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
         try {
-            List<User> items = new ArrayList<User>();
+            List<User> items = new ArrayList<>();
 
-            repository.findAll().forEach(items::add);
+            service.findAll().forEach(items::add);
 
             if (items.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -44,19 +43,26 @@ class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable("id") UUID id) {
-        Optional<User> existingItemOptional = repository.findById(id);
+        User userFound = service.findById(id);
 
-        if (existingItemOptional.isPresent()) {
-            return new ResponseEntity<>(existingItemOptional.get(), HttpStatus.OK);
+        if (userFound != null) {
+            return new ResponseEntity<>(userFound, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
+    public ResponseEntity<User> create(@RequestBody User user) {      
+        if(user.getId() == null) user.setId(UUID.randomUUID());
+
+        User foundUser = service.findByUsername(user.getUsername());
+
+        if(foundUser != null)
+            return new ResponseEntity<>(HttpStatus.IM_USED);
+
         try {
-            User savedUser = repository.save(user);
+            User savedUser = service.save(user);
             return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -67,7 +73,7 @@ class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") UUID id) {
         try {
-            repository.deleteById(id);
+            service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

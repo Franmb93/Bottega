@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
@@ -22,11 +24,13 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	@JsonBackReference
+	@JsonBackReference(value="rooms")
+    @Nullable
 	private List<Room> rooms;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	@JsonBackReference
+	@JsonBackReference(value="messages")
+    @Nullable
 	private List<Message> messages;
 
 }

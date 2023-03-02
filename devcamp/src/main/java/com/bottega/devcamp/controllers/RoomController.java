@@ -2,7 +2,6 @@ package com.bottega.devcamp.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,37 +16,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bottega.devcamp.entities.Room;
-import com.bottega.devcamp.repository.IRoomDao;
+import com.bottega.devcamp.services.IRoomService;
+
 
 @RestController
 @RequestMapping("/api/rooms")
 class RoomController {
 
     @Autowired
-    IRoomDao repository;
+    IRoomService service;
 
     @GetMapping
     public ResponseEntity<List<Room>> getAll() {
         try {
-            List<Room> rooms = new ArrayList<Room>();
+            List<Room> rooms = new ArrayList<>();
 
-            repository.findAll().forEach(rooms::add);
+            service.findAll().forEach(rooms::add);
 
             if (rooms.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
             return new ResponseEntity<>(rooms, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Room> getById(@PathVariable("id") UUID id) {
-        Optional<Room> existingroomOptional = repository.findById(id);
+        Room roomFound = service.findById(id);
 
-        if (existingroomOptional.isPresent()) {
-            return new ResponseEntity<>(existingroomOptional.get(), HttpStatus.OK);
+        if (roomFound != null) {
+            return new ResponseEntity<>(roomFound, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -55,11 +55,13 @@ class RoomController {
 
     @PostMapping
     public ResponseEntity<Room> create(@RequestBody Room room) {
+        if(room.getId() == null) room.setId(UUID.randomUUID());
+
         try {
-            Room saveRoom = repository.save(room);
+            Room saveRoom = service.save(room);
             return new ResponseEntity<>(saveRoom, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
@@ -67,7 +69,7 @@ class RoomController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") UUID id) {
         try {
-            repository.deleteById(id);
+            service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

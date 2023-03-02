@@ -10,6 +10,5 @@ import com.bottega.devcamp.entities.User;
 
 @Repository
 public interface IUserDao extends JpaRepository<User, UUID> {
-
-
+    public User findByUsername(String username);
 }

@@ -11,4 +11,5 @@ public interface IUserService {
     public User findById(UUID id);
     public User save(User user);
     public void delete(UUID id);
+    public User findByUsername(String username);
 }
