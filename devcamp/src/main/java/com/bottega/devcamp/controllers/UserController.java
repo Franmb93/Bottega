@@ -1,5 +1,6 @@
 package com.bottega.devcamp.controllers;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bottega.devcamp.entities.User;
 import com.bottega.devcamp.services.IUserService;
+import com.bottega.devcamp.utils.PasswordManagment;
 
 @RestController
 @RequestMapping("/api/user")
@@ -53,13 +55,15 @@ class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {      
+    public ResponseEntity<User> create(@RequestBody User user) throws NoSuchAlgorithmException {      
         if(user.getId() == null) user.setId(UUID.randomUUID().toString());
 
         User foundUser = service.findByUsername(user.getUsername());
 
         if(foundUser != null)
             return new ResponseEntity<>(HttpStatus.IM_USED);
+
+        user.setPassword(PasswordManagment.hashPassword(user.getPassword()));
 
         try {
             User savedUser = service.save(user);
