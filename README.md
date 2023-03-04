@@ -10,6 +10,9 @@ For example, there's someone from Spain, preparing the Oxford B2 English cerific
 
 ## Versions
 
+### 0.0.3 JWT to session managment trough a token
+Implemented JWT in the backend to generate a token when you login. This token is stored encrypted in the frontend. In case the token isn't present or if it's wrong, API's endpoints won't work. 
+
 ### 0.0.2 Login Controller and password encrypt
 Implemented a controller to Login into the application. Implemented basic password encrpytion. 
 

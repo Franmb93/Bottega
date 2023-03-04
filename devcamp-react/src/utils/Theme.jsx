@@ -7,7 +7,8 @@ const Theme = {
           },
           secondary: {
             dark: "#ffb5b5",
-            main: "#ffcbcb"
+            main: "#ffcbcb",
+            light: "#f7e4e4"
           }
         }
 }

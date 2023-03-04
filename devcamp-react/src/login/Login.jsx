@@ -7,8 +7,6 @@ import {
   createTheme,
   CssBaseline,
   FormControlLabel,
-  Grid,
-  Link,
   TextField,
   ThemeProvider,
   Typography,
@@ -113,14 +111,6 @@ export default function Login() {
               >
                 Sign In
               </Button>
-
-              <Grid container direction="column" alignItems="center">
-                <Grid item xs>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
