@@ -6,15 +6,13 @@ bottom:0,
 left:0,
 
 width: '100%',
-borderTop: '1px solid #ffcbcb',
-backgroundColor: '#f7e4e4',
-height: '3.5%'
+backgroundColor: '#fdeded',
+height: ['5.5%', '4.5%']
 
 
 }
 
 const textStyle = {
-    lineHeight: ['2rem', '3rem'],
     textDecoration: 'none',
 
     letterSpacing: '1px',
@@ -29,7 +27,7 @@ export default function Footer(){
     return(
         <>
             <Box sx={style}>
-                <Grid container direction='row' alignContent={"center"} justifyContent={'space-around'}>
+                <Grid style={{height: '100%'}} container direction='row' alignContent={"center"} justifyContent={'space-around'}>
                     <Link sx={textStyle}>About us</Link>
                     <Link sx={textStyle}>Contact</Link>
                     <Link href="https://github.com/Franmb93" sx={textStyle}>GitHub</Link>

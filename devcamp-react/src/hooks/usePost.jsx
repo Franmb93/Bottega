@@ -16,7 +16,7 @@ function usePost(url, initialData = null) {
         body: JSON.stringify(dataToPost),
       });
 
-      if(response.status === '200'){
+      if(response.status === '200' || response.status === '201'){
         const responseData = await response.json();
         setData(responseData);
         return responseData;

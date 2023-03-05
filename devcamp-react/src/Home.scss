@@ -3,7 +3,7 @@ $color-primary-light: #508dac;
 $color-primary-dark: #132743;
 
 $color-secondary: #ffb5b5;
-$color-secondary-light: #fad7d7;
+$color-secondary-light: #fdeded;
 $color-secondary-dark: #ffacac;
 
 @keyframes moveInLeft {
@@ -54,23 +54,28 @@ $color-secondary-dark: #ffacac;
   @if $breakpoint == phone {
     @media only screen and (max-width: 37.5em) {
       @content;
-    } 
+    }
   }
   @if $breakpoint == tab-port {
     @media only screen and (max-width: 56.25em) {
       @content;
-    } 
+    }
   }
   @if $breakpoint == tab-land {
     @media only screen and (max-width: 75em) {
       @content;
-    } 
+    }
   }
   @if $breakpoint == big-desktop {
     @media only screen and (min-width: 112.5em) {
       @content;
-    } 
+    }
   }
+}
+
+.home {
+  height: 100vh;
+  background-color: $color-secondary-light;
 }
 
 .header {
@@ -113,32 +118,30 @@ $color-secondary-dark: #ffacac;
 
       font-size: 1rem;
 
-      .heading-primary--main{
+      .heading-primary--main {
         font-size: 2rem;
         letter-spacing: 0.2rem;
         animation: moveInRight 1s ease-out;
       }
-  
-      .heading-primary--sub{
+
+      .heading-primary--sub {
         font-size: 1rem;
         margin-top: 0;
       }
     }
 
-  @include respond(tab-land){
-    .heading-primary--main{
-      font-size: 3rem;
-      letter-spacing: 0.2rem;
-      animation: moveInRight 1s ease-out;
+    @include respond(tab-land) {
+      .heading-primary--main {
+        font-size: 3rem;
+        letter-spacing: 0.2rem;
+        animation: moveInRight 1s ease-out;
+      }
+
+      .heading-primary--sub {
+        font-size: 1.5rem;
+        margin-top: 0;
+      }
     }
-
-    .heading-primary--sub{
-      font-size: 1.5rem;
-      margin-top: 0;
-    }
-  }
-
-
 
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 95vh, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 95vh, 0 100%);

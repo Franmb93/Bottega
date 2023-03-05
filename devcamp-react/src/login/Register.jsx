@@ -2,48 +2,43 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   createTheme,
   CssBaseline,
-  FormControlLabel,
   TextField,
   ThemeProvider,
-  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import Copyright from "../utils/Copyright";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Theme from "../utils/Theme";
 import usePost from "../hooks/usePost";
 import Config from "../Config.json";
-import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import "../App.css";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
-export default function Login() {
+export default function Register() {
   const theme = createTheme(Theme);
-  const navigate = useNavigate();
-  const { post } = usePost(`${Config.SERVER_URL}/api/login`);
-
-  const [loginStatus, setloginStatus] = useState();
+  const { post } = usePost(`${Config.SERVER_URL}/api/user`);
+  const [errors, setErrors] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await post({
       username: e.target[0].value,
-      password: e.target[2].value,
-    }).then((result) => {
-      if (result === 401) {
-        setloginStatus(result);
+      password: e.target[2].value
+    }).then( (result) => {
+      if(result === 226){
+        setErrors({...errors, userExists: true});
       } else {
-        secureLocalStorage.setItem("username", result.username);
-        secureLocalStorage.setItem("authToken", result.authToken);
-        navigate("/home");
+        setErrors({...errors, userExists: false});
+
+        console.log(result);
       }
     });
+
   };
 
   return (
@@ -60,11 +55,9 @@ export default function Login() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-              <LockOutlinedIcon />
+              <HowToRegIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
+
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -75,7 +68,7 @@ export default function Login() {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
+                id="email"
                 label="Username"
                 name="username"
                 autoComplete="username"
@@ -91,15 +84,22 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="email"
+                label="Email"
+                type="email"
+                id="email"
+                autoComplete="current-email"
               />
-              {loginStatus === 401 ? (
+              {errors.userExists ? (
                 <div className="_error">
                   <WarningAmberIcon style={{ fontSize: "1.2rem" }} />
                   <span className="_error-text">
-                    Wrong username or password
+                    User already exists
                   </span>
                 </div>
               ) : null}
@@ -109,7 +109,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Register
               </Button>
             </Box>
           </Box>

@@ -19,7 +19,7 @@ import com.bottega.devcamp.utils.PasswordManagment;
 
 @RestController
 @RequestMapping("/api/login")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class LoginController {
     
     @Autowired
