@@ -2,6 +2,7 @@ package com.bottega.devcamp.controllers;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bottega.devcamp.entities.Room;
 import com.bottega.devcamp.entities.User;
+import com.bottega.devcamp.services.IRoomService;
+import com.bottega.devcamp.services.IUserRoomService;
 import com.bottega.devcamp.services.IUserService;
 import com.bottega.devcamp.utils.PasswordManagment;
 
@@ -28,6 +32,12 @@ class UserController {
 
     @Autowired
     IUserService service;
+
+    @Autowired
+    IRoomService roomService;
+
+    @Autowired
+    IUserRoomService userRoomService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
@@ -57,12 +67,13 @@ class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) throws NoSuchAlgorithmException {      
-        if(user.getId() == null) user.setId(UUID.randomUUID().toString());
+    public ResponseEntity<User> create(@RequestBody User user) throws NoSuchAlgorithmException {
+        if (user.getId() == null)
+            user.setId(UUID.randomUUID().toString());
 
         User foundUser = service.findByUsername(user.getUsername());
 
-        if(foundUser != null)
+        if (foundUser != null)
             return new ResponseEntity<>(HttpStatus.IM_USED);
 
         user.setPassword(PasswordManagment.hashPassword(user.getPassword()));
@@ -75,14 +86,28 @@ class UserController {
         }
     }
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         try {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+    @GetMapping("/{userId}/rooms")
+    public ResponseEntity<?> getRoomsInUser(@PathVariable String userId) {
+
+        List<String> list = userRoomService.findUserRooms(userId);
+
+        if (list.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        List<Room> roomList = new LinkedList<>();
+
+        list.forEach(roomId -> roomList.add(roomService.findById(roomId)));
+
+        return new ResponseEntity<>(roomList, HttpStatus.OK);
     }
 }

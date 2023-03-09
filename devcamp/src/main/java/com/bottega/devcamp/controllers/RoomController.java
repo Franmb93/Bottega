@@ -1,6 +1,7 @@
 package com.bottega.devcamp.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bottega.devcamp.entities.Room;
+import com.bottega.devcamp.entities.User;
 import com.bottega.devcamp.services.IRoomService;
-
+import com.bottega.devcamp.services.IUserRoomService;
+import com.bottega.devcamp.services.IUserService;
 
 @RestController
 @RequestMapping("/api/rooms")
@@ -25,6 +28,12 @@ class RoomController {
 
     @Autowired
     IRoomService service;
+
+    @Autowired
+    IUserRoomService userRoomService;
+
+    @Autowired
+    IUserService userService;
 
     @GetMapping
     public ResponseEntity<List<Room>> getAll() {
@@ -55,7 +64,8 @@ class RoomController {
 
     @PostMapping
     public ResponseEntity<Room> create(@RequestBody Room room) {
-        if(room.getId() == null) room.setId(UUID.randomUUID().toString());
+        if (room.getId() == null)
+            room.setId(UUID.randomUUID().toString());
 
         try {
             Room saveRoom = service.save(room);
@@ -64,7 +74,6 @@ class RoomController {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
@@ -75,4 +84,20 @@ class RoomController {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
+
+    @GetMapping("/{roomId}/users")
+    public ResponseEntity<?> getUsersInRoom(@PathVariable String roomId) {
+
+        List<String> list = userRoomService.findRoomUsers(roomId);
+
+        if (list.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        List<User> users = new LinkedList<>();
+
+        list.forEach(userId -> users.add(userService.findById(userId)));
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
 }

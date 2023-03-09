@@ -1,29 +1,28 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function usePost(url, initialData = null) {
   const [data, setData] = useState(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  async function post(dataToPost) {
+  async function post(url, dataToPost) {
     setIsLoading(true);
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(dataToPost),
       });
 
-      if(response.status === '200' || response.status === '201'){
+      if (response.status === "200" || response.status === "201") {
         const responseData = await response.json();
         setData(responseData);
         return responseData;
       } else {
         return response.status;
       }
-
     } catch (error) {
       setError(error);
     } finally {

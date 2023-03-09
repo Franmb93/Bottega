@@ -3,9 +3,8 @@ package com.bottega.devcamp.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
 public class PasswordManagment {
-    
+
     public static String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(password.getBytes());
@@ -22,6 +21,7 @@ public class PasswordManagment {
         return enteredPasswordHashed.equals(hashedPassword);
     }
 
-    private PasswordManagment(){}
+    private PasswordManagment() {
+    }
 
 }

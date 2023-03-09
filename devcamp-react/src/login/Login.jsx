@@ -25,14 +25,14 @@ import "../App.css";
 export default function Login() {
   const theme = createTheme(Theme);
   const navigate = useNavigate();
-  const { post } = usePost(`${Config.SERVER_URL}/api/login`);
+  const { post } = usePost();
 
   const [loginStatus, setloginStatus] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await post({
+    await post(`${Config.SERVER_URL}/api/login`, {
       username: e.target[0].value,
       password: e.target[2].value,
     }).then((result) => {

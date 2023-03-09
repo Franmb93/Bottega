@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import ChatCard from './chat/ChatCard';
 import ChatWrapper from './chat/ChatWrapper';
 import Home from './Home';
 import Login from './login/Login';
