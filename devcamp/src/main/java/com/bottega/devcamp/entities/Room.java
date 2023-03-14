@@ -4,9 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +31,11 @@ public class Room {
     @JsonBackReference(value = "users")
     @EqualsAndHashCode.Exclude
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @Nullable
+    @JsonBackReference(value = "messages")
+    private List<Message> messages;
 
     private String name;
 }

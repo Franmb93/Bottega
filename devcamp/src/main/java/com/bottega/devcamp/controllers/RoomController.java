@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ import com.bottega.devcamp.services.IUserService;
 @RestController
 @RequestMapping("/api/rooms")
 class RoomController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoomController.class);
 
     @Autowired
     IRoomService service;
@@ -64,6 +68,8 @@ class RoomController {
 
     @PostMapping
     public ResponseEntity<Room> create(@RequestBody Room room) {
+        LOGGER.info("Entering creating room: " + room);
+
         if (room.getId() == null)
             room.setId(UUID.randomUUID().toString());
 
@@ -71,6 +77,7 @@ class RoomController {
             Room saveRoom = service.save(room);
             return new ResponseEntity<>(saveRoom, HttpStatus.CREATED);
         } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
@@ -87,6 +94,7 @@ class RoomController {
 
     @GetMapping("/{roomId}/users")
     public ResponseEntity<?> getUsersInRoom(@PathVariable String roomId) {
+        LOGGER.info("GetMapping by Room");
 
         List<String> list = userRoomService.findRoomUsers(roomId);
 

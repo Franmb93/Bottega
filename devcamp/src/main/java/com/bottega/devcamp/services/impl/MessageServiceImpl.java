@@ -3,6 +3,8 @@ package com.bottega.devcamp.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bottega.devcamp.entities.Message;
@@ -10,14 +12,19 @@ import com.bottega.devcamp.repository.IMessageDao;
 import com.bottega.devcamp.services.IMessageService;
 
 @Service
-public class MessageServiceImpl implements IMessageService{
-    
+public class MessageServiceImpl implements IMessageService {
+
     @Autowired
     private IMessageDao dao;
 
     @Override
     public List<Message> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public Page<Message> findByRoomId(String roomId, Pageable page) {
+        return dao.findByRoomId(roomId, page);
     }
 
     @Override
@@ -34,6 +41,5 @@ public class MessageServiceImpl implements IMessageService{
     public void delete(String id) {
         dao.deleteById(id);
     }
-
 
 }
