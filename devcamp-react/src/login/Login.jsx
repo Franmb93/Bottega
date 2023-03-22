@@ -2,11 +2,9 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   createTheme,
   CssBaseline,
-  FormControlLabel,
   TextField,
   ThemeProvider,
   Typography,
@@ -15,35 +13,43 @@ import React, { useState } from "react";
 import Copyright from "../utils/Copyright";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Theme from "../utils/Theme";
-import usePost from "../hooks/usePost";
 import Config from "../Config.json";
 import secureLocalStorage from "react-secure-storage";
-import { useNavigate } from "react-router-dom";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import "../App.css";
+import axios from "axios";
 
 export default function Login() {
   const theme = createTheme(Theme);
-  const navigate = useNavigate();
-  const { post } = usePost();
 
   const [loginStatus, setloginStatus] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await post(`${Config.SERVER_URL}/api/login`, {
-      username: e.target[0].value,
-      password: e.target[2].value,
-    }).then((result) => {
-      if (result === 401) {
-        setloginStatus(result);
-      } else {
-        secureLocalStorage.setItem("username", result.username);
-        secureLocalStorage.setItem("authToken", result.authToken);
-        navigate("/home");
-      }
-    });
+    axios
+      .post(`${Config.SERVER_URL}/api/login`, {
+        username: e.target[0].value,
+        password: e.target[2].value,
+      })
+      .then((result) => {
+        console.log(result);
+        if (result === 401) {
+          setloginStatus(result.status);
+        } else {
+          console.log(result.data);
+          secureLocalStorage.setItem("id", result.data.id);
+          secureLocalStorage.setItem("username", result.data.username);
+          secureLocalStorage.setItem("authToken", result.data.authToken);
+
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          setloginStatus(error.response.status);
+        }
+      });
   };
 
   return (
@@ -90,10 +96,6 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
               />
               {loginStatus === 401 ? (
                 <div className="_error">

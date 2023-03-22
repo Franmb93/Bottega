@@ -11,34 +11,33 @@ import {
 import React, { useState } from "react";
 import Copyright from "../utils/Copyright";
 import Theme from "../utils/Theme";
-import usePost from "../hooks/usePost";
 import Config from "../Config.json";
-import { useNavigate } from "react-router-dom";
 import "../App.css";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import axios from "axios";
 
 export default function Register() {
   const theme = createTheme(Theme);
-  const { post } = usePost(`${Config.SERVER_URL}/api/user`);
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await post({
-      username: e.target[0].value,
-      password: e.target[2].value
-    }).then( (result) => {
-      if(result === 226){
-        setErrors({...errors, userExists: true});
-      } else {
-        setErrors({...errors, userExists: false});
+    axios
+      .post(`${Config.SERVER_URL}/api/user`, {
+        username: e.target[0].value,
+        password: e.target[2].value,
+      })
+      .then((result) => {
+        if (result === 226) {
+          setErrors({ ...errors, userExists: true });
+        } else {
+          setErrors({ ...errors, userExists: false });
 
-        console.log(result);
-      }
-    });
-
+          console.log(result);
+        }
+      });
   };
 
   return (
@@ -98,9 +97,7 @@ export default function Register() {
               {errors.userExists ? (
                 <div className="_error">
                   <WarningAmberIcon style={{ fontSize: "1.2rem" }} />
-                  <span className="_error-text">
-                    User already exists
-                  </span>
+                  <span className="_error-text">User already exists</span>
                 </div>
               ) : null}
               <Button

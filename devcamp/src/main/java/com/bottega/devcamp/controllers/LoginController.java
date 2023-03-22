@@ -21,7 +21,7 @@ import com.bottega.devcamp.utils.PasswordManagment;
 @RequestMapping("/api/login")
 @CrossOrigin(origins = "*")
 public class LoginController {
-    
+
     @Autowired
     private IUserService userService;
 
@@ -29,15 +29,15 @@ public class LoginController {
     private JwtUtils jwtUtils;
 
     @PostMapping
-    public ResponseEntity<DTOLoginUser> login(@RequestBody User login){
+    public ResponseEntity<DTOLoginUser> login(@RequestBody User login) {
         User foundUser = userService.findByUsername(login.getUsername());
 
-        if(foundUser == null){
+        if (foundUser == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         try {
-            if(!PasswordManagment.checkPassword(login.getPassword(), foundUser.getPassword())){
+            if (!PasswordManagment.checkPassword(login.getPassword(), foundUser.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         } catch (NoSuchAlgorithmException e) {
@@ -45,7 +45,8 @@ public class LoginController {
         }
 
         DTOLoginUser dtoLoginUser = new DTOLoginUser();
-        
+
+        dtoLoginUser.setId(foundUser.getId());
         dtoLoginUser.setAuthToken(jwtUtils.generateToken(foundUser));
         dtoLoginUser.setUsername(foundUser.getUsername());
 

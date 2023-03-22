@@ -38,4 +38,6 @@ public class Room {
     private List<Message> messages;
 
     private String name;
+
+    private String description;
 }

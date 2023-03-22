@@ -80,7 +80,7 @@ const style = {
   position: "fixed",
   top: "5%",
   left: "5%",
-  zIndex: 1,
+  zIndex: 0,
 
   width: "100%",
   borderBottom: "1px solid black",
@@ -91,7 +91,7 @@ const style = {
 const linkStyle = {
   fontWeight: 900,
   letterSpacing: "4px",
-  fontSize: ["0.8rem", "1rem", "1.5rem", "2rem"],
+  fontSize: ["0.8rem", "1rem", "1.5rem", "1.5rem"],
   textDecoration: "none",
   marginRight: ["2rem", "3rem", "4rem"],
   transition: "color 0.3s ease",

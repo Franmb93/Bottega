@@ -108,4 +108,23 @@ class RoomController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @PostMapping("/join/{userId}/{roomId}")
+    public ResponseEntity<?> userJoinRoom(@PathVariable String userId, @PathVariable String roomId) {
+        LOGGER.info("Join Room=" + userId);
+
+        User user = userService.findById(userId);
+
+        Room room = service.findById(roomId);
+
+        room.getUsers().add(user);
+        service.save(room);
+
+        if (!room.getUsers().contains(user)) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
 }
