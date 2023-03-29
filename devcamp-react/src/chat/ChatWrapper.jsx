@@ -7,6 +7,7 @@ import LeftRoomNavbar from "./LeftRoomNavbar";
 import axios from "axios";
 import Config from "../Config.json";
 import secureLocalStorage from "react-secure-storage";
+import Message from "./Message";
 
 let theme = createTheme(Theme);
 
@@ -33,7 +34,8 @@ export default function ChatWrapper() {
     <>
       <ThemeProvider theme={theme}>
         <LeftRoomNavbar serverList={serverList}></LeftRoomNavbar>
-        <EmptyWelcomePage serverList={serverList}></EmptyWelcomePage>
+        {/* <EmptyWelcomePage serverList={serverList}></EmptyWelcomePage> */}
+        <Message></Message>
       </ThemeProvider>
     </>
   );

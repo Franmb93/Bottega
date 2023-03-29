@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.bottega.devcamp.services.IMessageService;
 
 @RestController
 @RequestMapping("/api/message")
+@CrossOrigin(origins = "*")
 class MessageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageController.class);
 

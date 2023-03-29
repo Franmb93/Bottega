@@ -6,6 +6,10 @@ For example, there's someone from Spain, preparing the Oxford B2 English cerific
 
 ## Versions
 
+### 0.0.6 Implemented messages, and started application design
+
+### 0.0.5 Starting joining backend and front end to make a functional room forum
+
 ### 0.0.4 Home page finished. Implemented Navigation Bar for Rooms, without functionallity.
 
 Finished the styling of the homepage and it's responsiveness. Added a Navigation Bar for the Rooms in the main-app.
