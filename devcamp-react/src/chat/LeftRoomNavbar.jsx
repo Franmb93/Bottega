@@ -81,6 +81,7 @@ export default function LeftRoomNavbar({ serverList }) {
               return (
                 <ChatCard
                   key={item.id}
+                  id={item.id}
                   title={item.name}
                   content={item.description}
                 ></ChatCard>

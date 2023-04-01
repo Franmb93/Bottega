@@ -6,17 +6,17 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Config from "../Config.json";
+import { RoomContext } from "./RoomContext";
 
-export default function Message({ room_id }) {
+export default function Message({ room }) {
   const [messages, setMessages] = useState([]);
+  const { roomId, setRoomId } = useContext(RoomContext);
 
   useEffect(() => {
     axios
-      .get(
-        `${Config.SERVER_URL}/api/message/infinite/c3834928-fc23-4923-8e44-5d0d541a6688`
-      )
+      .get(`${Config.SERVER_URL}/api/message/infinite/${roomId}`)
       .then((response) => {
         console.log(response);
         setMessages(
@@ -36,7 +36,9 @@ export default function Message({ room_id }) {
           <Card
             key={message.id}
             sx={{
-              width: 975,
+              position: "relative",
+              left: "27.2%",
+              width: ["72.5%"],
               height: 75,
               backgroundColor: "#407088",
               color: "#f7e4e4",

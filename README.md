@@ -6,6 +6,10 @@ For example, there's someone from Spain, preparing the Oxford B2 English cerific
 
 ## Versions
 
+### 0.0.7 Chat functionallity.
+
+Chat is now working, but not automatically retrieving new messages.
+
 ### 0.0.6 Implemented messages, and started application design
 
 ### 0.0.5 Starting joining backend and front end to make a functional room forum

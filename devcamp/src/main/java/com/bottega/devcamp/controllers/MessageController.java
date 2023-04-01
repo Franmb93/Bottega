@@ -88,7 +88,7 @@ class MessageController {
     @GetMapping("/infinite/{roomId}")
     public ResponseEntity<List<Message>> getMessages(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "11") int size,
             @PathVariable String roomId) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp"));

@@ -7,16 +7,26 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import avatar from "../img/avatar_01.jpg";
 import Theme from "../utils/Theme";
+import secureLocalStorage from "react-secure-storage";
+import { RoomContext } from "./RoomContext";
 
 let theme = createTheme(Theme);
 
-export default function ChatCard({ image, title, content }) {
+export default function ChatCard({ id, image, title, content }) {
+  const { roomId, setRoomId } = useContext(RoomContext);
+
   return (
     <>
-      <Box sx={boxStyle}>
+      <Box
+        sx={boxStyle}
+        onClick={() => {
+          setRoomId(id);
+          console.log(roomId);
+        }}
+      >
         <Card sx={cardStyle}>
           <CardMedia
             sx={avatarStyle}
