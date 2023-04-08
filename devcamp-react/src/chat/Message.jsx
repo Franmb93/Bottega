@@ -1,34 +1,6 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import Config from "../Config.json";
-import { RoomContext } from "./RoomContext";
+import { Card, CardContent, Typography } from "@mui/material";
 
-export default function Message({ room }) {
-  const [messages, setMessages] = useState([]);
-  const { roomId, setRoomId } = useContext(RoomContext);
-
-  useEffect(() => {
-    axios
-      .get(`${Config.SERVER_URL}/api/message/infinite/${roomId}`)
-      .then((response) => {
-        console.log(response);
-        setMessages(
-          response.data.sort(
-            (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
-          )
-        );
-      });
-
-    return () => {};
-  }, []);
-
+export default function Message({ messages }) {
   return (
     <>
       {messages &&

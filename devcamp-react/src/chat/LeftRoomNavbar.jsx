@@ -8,7 +8,6 @@ export default function LeftRoomNavbar({ serverList }) {
   const [direction, setDirection] = useState("right");
 
   useEffect(() => {
-    console.log(serverList);
     if (serverList.length === 0) {
       setDirection("left");
     }

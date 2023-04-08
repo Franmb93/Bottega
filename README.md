@@ -6,6 +6,8 @@ For example, there's someone from Spain, preparing the Oxford B2 English cerific
 
 ## Versions
 
+### 0.0.8 Chat retrieving older messages.
+
 ### 0.0.7 Chat functionallity.
 
 Chat is now working, but not automatically retrieving new messages.

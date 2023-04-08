@@ -7,7 +7,6 @@ import LeftRoomNavbar from "./LeftRoomNavbar";
 import axios from "axios";
 import Config from "../Config.json";
 import secureLocalStorage from "react-secure-storage";
-import Message from "./Message";
 import { RoomContext } from "./RoomContext";
 import RoomWrapper from "./RoomWrapper";
 
@@ -15,11 +14,9 @@ let theme = createTheme(Theme);
 
 export default function ChatWrapper() {
   const [serverList, setServerList] = useState([]);
-  const [status, setStatus] = useState();
   const { roomId } = useContext(RoomContext);
 
   useEffect(() => {
-    console.log(roomId);
     async function fetchData() {
       await axios
         .get(
@@ -33,7 +30,7 @@ export default function ChatWrapper() {
     }
 
     fetchData();
-  }, []);
+  }, );
 
   return (
     <>

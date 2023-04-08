@@ -88,10 +88,10 @@ class MessageController {
     @GetMapping("/infinite/{roomId}")
     public ResponseEntity<List<Message>> getMessages(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "11") int size,
+            @RequestParam(defaultValue = "13") int size,
             @PathVariable String roomId) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp").descending());
 
         Page<Message> messagePage = service.findByRoomId(roomId, pageable);
 
