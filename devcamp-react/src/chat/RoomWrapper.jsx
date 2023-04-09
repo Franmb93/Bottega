@@ -15,6 +15,21 @@ export default function RoomWrapper() {
 
   const messageContainerRef = useRef(null);
 
+  const updateMessages = async () => {
+    const response = await fetch(
+      `${Config.SERVER_URL}/api/message/infinite/${roomId}?page=0`
+    );
+  
+    console.log(response);
+  
+    if (!response.ok) {
+      console.error("Failed to load messages");
+      return;
+    }
+  
+    const data = await response.json();
+    setMessages(data);
+  };
   const loadMessages = async (pageNumber) => {
     console.log(`loadMessages: pageNumber=${pageNumber}, page=${page}`);
 
@@ -53,7 +68,7 @@ export default function RoomWrapper() {
 
   useEffect(() => {
     loadMessages(0);
-  });
+  }, []);
 
   useEffect(() => {
     const container = messageContainerRef.current;
@@ -76,7 +91,7 @@ export default function RoomWrapper() {
         {loading && <div>Loading...</div>}
         {!hasMore && <div>No more messages</div>}
       </div>
-      <WriteChat />
+      <WriteChat updateMessages={updateMessages} />
     </div>
   );
 }

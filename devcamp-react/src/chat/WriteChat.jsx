@@ -5,7 +5,7 @@ import { useContext, useRef } from "react";
 import { RoomContext } from "./RoomContext";
 import axios from "axios";
 
-export default function WriteChat() {
+export default function WriteChat({ updateMessages }) {
   const inputRef = useRef();
   const { roomId, setRoomId } = useContext(RoomContext);
 
@@ -28,7 +28,9 @@ export default function WriteChat() {
 
     axios
       .post("http://localhost:8080/api/message/", sendMessage)
-      .then((response) => console.log(response));
+      .then((response) => {
+        updateMessages();
+  });
   };
 
   return (
