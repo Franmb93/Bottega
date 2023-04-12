@@ -36,13 +36,19 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        try {
-            if (!PasswordManagment.checkPassword(login.getPassword(), foundUser.getPassword())) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        } catch (NoSuchAlgorithmException e) {
+        if(!login.getPassword().equals(foundUser.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
+        // !! It is usefull if not in a testing environment. 
+        // try {
+        //     if (!PasswordManagment.checkPassword(login.getPassword(), foundUser.getPassword())) {
+
+        //         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        //     }
+        // } catch (NoSuchAlgorithmException e) {
+        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        // }
 
         DTOLoginUser dtoLoginUser = new DTOLoginUser();
 

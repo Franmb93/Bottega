@@ -6,6 +6,10 @@ For example, there's someone from Spain, preparing the Oxford B2 English cerific
 
 ## Versions
 
+### 0.1 Implemented chat functionallity. Added a test python script to populate ddbb
+#### Now you automatically fetch the messages that another user has sent, making it act like a real chat.
+#### Added a test python script to populate ddbb
+
 ### 0.0.8 Chat retrieving older messages.
 
 ### 0.0.7 Chat functionallity.

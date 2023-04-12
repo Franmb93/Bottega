@@ -23,6 +23,8 @@ export default function ChatCard({ id, image, title, content }) {
       <Box
         sx={boxStyle}
         onClick={() => {
+          console.log("ID???")
+          console.log(id);
           setRoomId(id);
           console.log(roomId);
         }}

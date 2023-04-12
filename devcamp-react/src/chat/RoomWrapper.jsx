@@ -16,6 +16,7 @@ export default function RoomWrapper() {
   const messageContainerRef = useRef(null);
 
   const updateMessages = async () => {
+    console.log(roomId);
     const response = await fetch(
       `${Config.SERVER_URL}/api/message/infinite/${roomId}?page=0`
     );
@@ -67,9 +68,11 @@ export default function RoomWrapper() {
   };
 
   useEffect(() => {
-    loadMessages(0);
+    const intervalId = setInterval(() => {
+      loadMessages(0);
+    }, 2000);
+    return () => clearInterval(intervalId);
   }, []);
-
   useEffect(() => {
     const container = messageContainerRef.current;
     container.scrollTop = container.scrollHeight;

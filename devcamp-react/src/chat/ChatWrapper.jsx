@@ -37,7 +37,7 @@ export default function ChatWrapper() {
       <ThemeProvider theme={theme}>
         <LeftRoomNavbar serverList={serverList}></LeftRoomNavbar>
         {roomId !== "" ? (
-          <RoomWrapper></RoomWrapper>
+          <RoomWrapper key={roomId}></RoomWrapper>
         ) : (
           <EmptyWelcomePage serverList={serverList}></EmptyWelcomePage>
         )}
