@@ -42,7 +42,7 @@ export default function Login() {
           secureLocalStorage.setItem("username", result.data.username);
           secureLocalStorage.setItem("authToken", result.data.authToken);
 
-          window.location.reload();
+          window.location.pathname = '/';
         }
       })
       .catch((error) => {

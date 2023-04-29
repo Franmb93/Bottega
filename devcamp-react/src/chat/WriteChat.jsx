@@ -4,6 +4,7 @@ import secureLocalStorage from "react-secure-storage";
 import { useContext, useRef } from "react";
 import { RoomContext } from "./RoomContext";
 import axios from "axios";
+import Config from "../Config.json";
 
 export default function WriteChat({ updateMessages }) {
   const inputRef = useRef();
@@ -27,7 +28,7 @@ export default function WriteChat({ updateMessages }) {
     inputRef.current.value = "";
 
     axios
-      .post("http://localhost:8080/api/message/", sendMessage)
+      .post(`${Config.SERVER_URL}/api/message/`, sendMessage)
       .then((response) => {
         updateMessages();
   });

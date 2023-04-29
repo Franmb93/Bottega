@@ -11,8 +11,7 @@ function App() {
       <RoomContextProvider>
         <SidebarProvider>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/home" element={<Home></Home>} />
+            <Route path="/" element={<Home></Home>} />
             <Route path="/application" element={<ChatWrapper />} />
           </Routes>
         </SidebarProvider>
