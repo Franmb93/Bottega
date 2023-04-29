@@ -1,6 +1,10 @@
 import { Card, CardContent, Typography } from "@mui/material";
+import { useContext } from "react";
+import { SidebarContext } from "./SidebarContext";
 
 export default function Message({ messages }) {
+  const { isSidebarCollapsed } = useContext(SidebarContext);
+
   return (
     <>
       {messages &&
@@ -9,12 +13,16 @@ export default function Message({ messages }) {
             key={message.id}
             sx={{
               position: "relative",
-              left: "27.2%",
-              width: ["72.5%"],
-              height: 75,
+              left: isSidebarCollapsed ? "0%" : ["18.4%","24.4%","27.4%","12.2%"],
+              width: isSidebarCollapsed ? "99%" : ["85%"],
+              height: "auto",
               backgroundColor: "#407088",
               color: "#f7e4e4",
               margin: "0.1rem",
+              minHeight: 80,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
             <CardContent>

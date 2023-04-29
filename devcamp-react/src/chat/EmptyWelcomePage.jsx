@@ -79,13 +79,9 @@ export default function EmptyWelcomePage({ serverList }) {
 
 const generalBoxStyle = {
   height: "100%",
-  width: ["100%", "100%", "100%", "100%"],
+  width: "100%",
   backgroundColor: "#132743",
   background: "linear-gradient(to top, #132743, #508dac)",
-
-  position: "absolute",
-  zIndex: "-1",
-  left: ["0", "0", "0", "0"],
 };
 
 const gridGeneralStyle = {

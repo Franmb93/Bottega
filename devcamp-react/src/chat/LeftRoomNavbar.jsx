@@ -2,10 +2,14 @@ import { Box, Grid, Typography } from "@mui/material";
 import ChatCard from "./ChatCard";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { createTheme, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { SidebarContext } from "./SidebarContext";
 
 export default function LeftRoomNavbar({ serverList }) {
   const [direction, setDirection] = useState("right");
+  const { setIsSidebarCollapsed } = useContext(SidebarContext);
 
   useEffect(() => {
     if (serverList.length === 0) {
@@ -13,12 +17,66 @@ export default function LeftRoomNavbar({ serverList }) {
     }
   }, [serverList]);
 
-  const handleDirection = () => {
+  useEffect(() => {
     if (direction === "right") {
-      setDirection("left");
+      setIsSidebarCollapsed(false);
     } else {
-      setDirection("right");
+      setIsSidebarCollapsed(true);
     }
+  }, [direction, setIsSidebarCollapsed]);
+
+  const handleDirection = () => {
+    setDirection((prevDirection) =>
+      prevDirection === "right" ? "left" : "right"
+    );
+  };
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const floatingButton = {
+    position: "absolute",
+    top: "1%",
+    left: "1%",
+    backgroundColor: "#508dac",
+    color: "#132743",
+    width: "30px",
+    height: "30px",
+    borderRadius: "100%",
+    border: "1px solid #132743",
+    transition: "0.5s",
+
+    "&:hover": {
+      backgroundColor: "#132743",
+      color: "#f7e4e4",
+    },
+  };
+
+  const boxStyle = {
+    display: ["inherit"],
+    position: "fixed",
+    width: matches ? "520px" : "100%",
+    height: "99.9vh",
+    backgroundColor: "#132743",
+    borderBottom: "1px solid #508dac",
+    background: "linear-gradient(to top, #132743, #508dac)",
+    opacity: 1,
+    overflowY: "scroll",
+    zIndex: 1,
+  };
+
+  const headerStyle = {
+    position: "sticky",
+    top: 0,
+    zIndez: 1,
+    width: "100%",
+    height: "6vh",
+    backgroundColor: "#407088",
+    color: "#ffb5b5",
+    borderRadius: "2%",
+    borderBottom: "1px solid #132743",
+    background: "linear-gradient(to top, #407088, #589dc0)",
+    boxShadow: "0px 5px 5px -5px rgba(0,0,0,0.5)",
   };
 
   return (
@@ -26,24 +84,15 @@ export default function LeftRoomNavbar({ serverList }) {
       {direction === "right" ? (
         <Box sx={boxStyle}>
           <Grid
-            sx={headerStyle}
             container
             direction="row"
             alignItems={"center"}
-            justifyContent={"flex-start"}
+            justifyContent={"space-between"}
           >
             <Grid item xs={2}>
-              <KeyboardArrowLeftIcon
-                onClick={handleDirection}
-              ></KeyboardArrowLeftIcon>
+              <KeyboardArrowLeftIcon onClick={handleDirection} />
             </Grid>
-            <Grid
-              item
-              container
-              alignItems={"center"}
-              justifyContent={"flex-end"}
-              xs={6}
-            >
+            <Grid item xs={8} md={6}>
               <Typography style={{ opacity: 1 }} color="secondary" variant="h3">
                 {"Rooms"}
               </Typography>
@@ -97,47 +146,3 @@ export default function LeftRoomNavbar({ serverList }) {
     </>
   );
 }
-
-const floatingButton = {
-  position: "absolute",
-  top: "1%",
-  left: "1%",
-  backgroundColor: "#508dac",
-  color: "#132743",
-  width: "30px",
-  height: "30px",
-  borderRadius: "100%",
-  border: "1px solid #132743",
-  transition: "0.5s",
-
-  "&:hover": {
-    backgroundColor: "#132743",
-    color: "#f7e4e4",
-  },
-};
-
-const boxStyle = {
-  display: ["inherit"],
-  width: "520px",
-  height: "99.9vh",
-  backgroundColor: "#132743",
-  position: "absolute",
-  borderBottom: "1px solid #508dac",
-  background: "linear-gradient(to top, #132743, #508dac)",
-  opacity: 1,
-  overflowY: "scroll",
-};
-
-const headerStyle = {
-  position: "sticky",
-  top: 0,
-  zIndez: 1,
-  width: "100%",
-  height: "6vh",
-  backgroundColor: "#407088",
-  color: "#ffb5b5",
-  borderRadius: "2%",
-  borderBottom: "1px solid #132743",
-  background: "linear-gradient(to top, #407088, #589dc0)",
-  boxShadow: "0px 5px 5px -5px rgba(0,0,0,0.5)",
-};

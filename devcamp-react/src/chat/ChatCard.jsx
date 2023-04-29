@@ -10,7 +10,6 @@ import {
 import React, { useContext } from "react";
 import avatar from "../img/avatar_01.jpg";
 import Theme from "../utils/Theme";
-import secureLocalStorage from "react-secure-storage";
 import { RoomContext } from "./RoomContext";
 
 let theme = createTheme(Theme);
@@ -58,7 +57,7 @@ const boxStyle = {
 };
 
 const cardStyle = {
-  width: ["100%"],
+  width: "100%",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
@@ -67,6 +66,9 @@ const cardStyle = {
   color: "#ffb5b5",
   transition: "transform 0.2s ease-in-out",
   cursor: "pointer",
+  [theme.breakpoints.up('sm')]: {
+    flexDirection: "column",
+  },
   "&:hover": {
     boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
     backgroundColor: "#508dac",
@@ -86,6 +88,10 @@ const cardStyle = {
 const avatarStyle = {
   display: "inherit",
   borderRadius: "100%",
-  height: ["52px", "72px"],
-  width: ["52px", "72px"],
+  height: "52px",
+  width: "52px",
+  [theme.breakpoints.up('sm')]: {
+    height: "72px",
+    width: "72px",
+  },
 };
